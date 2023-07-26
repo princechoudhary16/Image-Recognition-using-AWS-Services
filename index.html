@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Provide your Image for Recognition</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .upload-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .upload-button:hover {
+            background-color: #0056b3;
+        }
+
+        .upload-button span {
+            pointer-events: none;
+        }
+
+        .image-preview-container {
+            text-align: center;
+        }
+
+        .image-preview {
+            display: none;
+            margin-top: 20px;
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fade-in 0.5s;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Provide your Image for Recognition</h1>
+    <div class="upload-container">
+        <input type="file" id="imageInput" class="file-input">
+        <label for="imageInput" class="upload-button">
+            <span>Choose Image</span>
+        </label>
+    </div>
+    <div id="imagePreviewContainer" class="image-preview-container">
+        <img id="uploadedImage" class="image-preview">
+    </div>
+
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const uploadButton = document.querySelector('.upload-button');
+        const imageInput = document.querySelector('.file-input');
+        const uploadedImage = document.querySelector('.image-preview');
+
+        uploadButton.addEventListener('click', () => {
+            const file = imageInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                uploadedImage.src = reader.result;
+                uploadedImage.style.display = 'block';
+
+                // Send the image to S3 using a PUT request
+                const xhr = new XMLHttpRequest();
+                xhr.open('PUT', 'arn:aws:s3:::projectbucket321' + file.name, true);
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        console.log('Image uploaded to S3 successfully.');
+                    } else {
+                        console.error('Error uploading image to S3.');
+                    }
+                };
+                xhr.send(file);
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+	</script>
+</body>
+</html>
