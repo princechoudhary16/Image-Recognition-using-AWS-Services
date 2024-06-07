@@ -48,4 +48,4 @@ This project demonstrates how to perform image recognition using various AWS ser
 
 This GitHub project showcases an image recognition system using AWS services. With the integration of Lambda, S3, Image Rekognition, CloudWatch Logs, Amplify, IAM, and SNS, the system efficiently detects and analyzes images, providing a seamless experience for clients and facilitating email-based output delivery.
 
-Feel free to contribute to the project and make it even better! If you encounter any issues or have suggestions, please open an issue or submit a pull request. Happy coding! 🚀
+Feel free to contribute to the project and make it even better! If you encounter any issues or have suggestions, please open an issue or submit a pull request. Happy coding!! 🚀
